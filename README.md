@@ -72,8 +72,11 @@ Nightlife discovery: Zomato "Party Vibes", Posh, corner "top picks" (new · tren
 
 ## Deploy
 
-Deployed to https://bubbling-prototype.vercel.app (Vercel builds with Vite into `dist/`, see `vercel.json`).
+Live at https://bubbling-prototype.vercel.app.
 
-```bash
-vercel --prod
-```
+Pushing to `main` deploys to production automatically: this repo is connected to the
+`bubbling-prototype` Vercel project, which builds with Vite into `dist/` (see `vercel.json`).
+Pushes to other branches get their own preview URLs.
+
+No manual deploy step is needed. To deploy without pushing (for example, local changes you
+haven't committed), run `vercel --prod` from the repo root.
