@@ -10,6 +10,7 @@ import Saved from './screens/Saved.jsx'
 import MapTab from './screens/MapTab.jsx'
 import { AlertsSheet } from './screens/Alerts.jsx'
 import { ReportSheet, GoingPrompt } from './screens/Report.jsx'
+import { StatusBar, HomeIndicator } from './DeviceChrome.jsx'
 
 const TABS = [
   { id: 'discover', label: 'Discover', icon: 'compass' },
@@ -30,16 +31,21 @@ function Screen() {
 }
 
 function Phone() {
-  const { tab, setTab, stack, toast } = useApp()
+  const { tab, setTab, stack, toast, clock } = useApp()
   const scrollRef = useRef()
+  const [pastHero, setPastHero] = useState(false)
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: 0 })
+    setPastHero(false)
   }, [tab, stack.length, stack[stack.length - 1]?.id])
   const top = stack[stack.length - 1]
   const hideTabs = top?.name === 'venue'
+  // Status bar sits over the venue hero art in white until the hero scrolls away
+  const onArt = top?.name === 'venue' && !pastHero
   return (
     <div className="phone">
-      <div className="phone__scroll" ref={scrollRef}>
+      <StatusBar h={clock.h} light={onArt} />
+      <div className="phone__scroll" ref={scrollRef} onScroll={(e) => setPastHero(e.currentTarget.scrollTop > 230)}>
         <Screen />
       </div>
       <GoingPrompt />
@@ -58,6 +64,7 @@ function Phone() {
       <ReportSheet />
       <AlertsSheet />
       <Toast msg={toast} />
+      <HomeIndicator />
     </div>
   )
 }
